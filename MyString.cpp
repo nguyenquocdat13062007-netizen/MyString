@@ -146,6 +146,32 @@ bool MyString::operator == (MyString sub)
     return true;
 }
 
+bool MyString ::operator!= (const MyString& other) {
+	if (len != other.len) return true;
+	for (int i = 0; i < len; i++) {
+		if (data[i] != other.data[i]) return true;
+	}
+	return false;
+}
+
+bool MyString::operator>= (const MyString& other) {
+	for (int i = 0; i < len && i < other.len; i++) {
+		if (data[i] > other.data[i]) return true;
+		if (data[i] < other.data[i]) return false;
+	}
+	if (len >= other.len) return true;
+	else return false;
+}
+
+bool MyString::operator<= (const MyString& other) {
+	for (int i = 0; i < len && i < other.len; i++) {
+		if (data[i] < other.data[i]) return true;
+		if (data[i] > other.data[i]) return false;
+	}
+	if (len <= other.len) return true;
+	else return false;
+}
+
 MyString MyString::operator+(const char* other) {
     MyString res;
     int otherLen = 0;
