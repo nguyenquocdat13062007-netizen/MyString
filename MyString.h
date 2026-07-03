@@ -36,6 +36,9 @@ public:
     bool operator > (MyString);
     bool operator < (MyString); 
     bool operator == (MyString);
+    bool operator != (const MyString);
+    bool operator >= (const MyString&);
+    bool operator <= (const MyString&);
 
     MyString operator+(const char* other);
     MyString operator+(MyString&);
