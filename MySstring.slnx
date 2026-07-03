@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="MySstring/MySstring.vcxproj" Id="d21a2bff-9112-43b0-8870-f68e776a5dd9" />
-</Solution>
