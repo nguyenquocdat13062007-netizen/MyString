@@ -32,7 +32,10 @@ public:
 
     friend istream& operator>>(istream& is, MyString& M);
     friend ostream& operator<<(ostream& os, const MyString& str);
-   
+
+    bool operator > (MyString);
+    bool operator < (MyString); 
+    bool operator == (MyString);
 
     MyString operator+(const char* other);
     MyString operator+(MyString&);
