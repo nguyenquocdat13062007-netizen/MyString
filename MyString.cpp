@@ -111,6 +111,41 @@ ostream& operator<<(ostream& os, unsigned char* str) {
     return os;
 }
 
+bool MyString::operator > (MyString sub)
+{
+    int i = 0, j = 0; 
+    while(i < len && j < sub.len)
+    {
+        if (data[i++] > sub.data[j++]) return true;
+        else if (data[i++] < sub.data[j++]) return false;
+    }
+    if (len > sub.len) return true;
+    else return false;
+    return false;
+}
+bool MyString::operator < (MyString sub)
+{
+    int i = 0, j = 0;
+    while (i < len && j < sub.len)
+    {
+        if (data[i++] > sub.data[j++]) return false;
+        else if (data[i++] < sub.data[j++]) return true;
+    }
+    if (len > sub.len) return false;
+    else return true;
+    return false;
+}
+bool MyString::operator == (MyString sub)
+{
+    if (len != sub.len) return false; 
+    int i = 0, j = 0;
+    while (i < len && j < len)
+    {
+        if (data[i++] != sub.data[j++]) return false;
+    }
+    return true;
+}
+
 MyString MyString::operator+(const char* other) {
     MyString res;
     int otherLen = 0;
