@@ -57,4 +57,3 @@ public:
     void set(const char*);
 };
 
-
