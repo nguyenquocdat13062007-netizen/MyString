@@ -38,7 +38,7 @@ int main() {
     cout << "String 3 after resizing: " << str3 << "\n\n";
 
     cout << "---------------------------------PLEASE ENTER THE DESIRED STRING---------------------------------" << "\n\n";
-    MyString str4;
+    char str4[1024];
     cout << "Enter desired string: ";
     cin >> str4;
     str3.set(str4);
