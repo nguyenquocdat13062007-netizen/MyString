@@ -244,10 +244,14 @@ MyString& MyString::operator=(const MyString& other) {
 }
 
 void MyString::set(int _size) {
-    if (_size < 0 || _size == len) {
+    if (_size < 0) {
+        cout << "!Size cannot be negative!" << endl;
         return;
     }
-
+    if (_size == len) {
+		cout << "!Size is the same as current length. No changes made!" << endl;
+            return;
+}
     if (_size == 0) {
         delete[] data;
         len = 0;
