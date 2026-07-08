@@ -1,5 +1,7 @@
 #include "MyString.h"
 
+using namespace std;
+
 int MyString::length() {
     return len;
 }
@@ -16,16 +18,30 @@ unsigned char* MyString::subString(int start, int count) {
     return res;
 }
 
-//unsigned char* MyString::operator+(const MyString& other) {
-//    int newLen = this->len + other.len;
-//    unsigned char* res = new unsigned char[newLen + 1];
-//
-//    for (int i = 0; i < this->len; i++) res[i] = this->data[i];
-//    for (int i = 0; i < other.len; i++) res[this->len + i] = other.data[i];
-//    res[newLen] = '\0';
-//
-//    return res;
-//}
+MyString operator + (const char* sstring, const MyString& my_string) {
+    MyString res;
+
+    int newLen = 0;
+    int idx = 0;
+
+    if (sstring != nullptr) {
+        while (sstring[newLen] != '\0') {
+            newLen++;
+        }
+    }
+
+    delete[]res.data;
+
+    res.len = newLen + my_string.len;
+    res.data = new unsigned char[res.len + 1];
+
+    for (int i = 0; i < newLen; i++) res.data[i] = static_cast<unsigned char>(sstring[i]);
+    for (int i = 0; i < my_string.len; i++) res.data[newLen + i] = my_string.data[i];
+
+    res.data[res.len] = '\0';
+
+    return res;
+}
 
 bool MyString::insert(int pos, unsigned char* strToInsert) {
     if (pos < 0 || pos > len || !strToInsert) return false;
@@ -89,10 +105,12 @@ int MyString::find(int pos, unsigned char* strToSearch) {
 
 istream& operator>>(istream& is, MyString& M) {
     char buffer[1024];
-    is >> buffer;
+    cin.getline(buffer, 100);
 
     int newLen = 0;
     while (buffer[newLen] != '\0') newLen++;
+
+    delete[]M.data;
 
     M.len = newLen;
     M.data = new unsigned char[newLen + 1];
@@ -109,67 +127,6 @@ ostream& operator<<(ostream& os, const MyString& str) {
 ostream& operator<<(ostream& os, unsigned char* str) {
     if (str) os << reinterpret_cast<char*>(str);
     return os;
-}
-
-bool MyString::operator > (MyString sub)
-{
-    int i = 0, j = 0; 
-    while(i < len && j < sub.len)
-    {
-        if (data[i++] > sub.data[j++]) return true;
-        else if (data[i++] < sub.data[j++]) return false;
-    }
-    if (len > sub.len) return true;
-    else return false;
-    return false;
-}
-bool MyString::operator < (MyString sub)
-{
-    int i = 0, j = 0;
-    while (i < len && j < sub.len)
-    {
-        if (data[i++] > sub.data[j++]) return false;
-        else if (data[i++] < sub.data[j++]) return true;
-    }
-    if (len > sub.len) return false;
-    else return true;
-    return false;
-}
-bool MyString::operator == (MyString sub)
-{
-    if (len != sub.len) return false; 
-    int i = 0, j = 0;
-    while (i < len && j < len)
-    {
-        if (data[i++] != sub.data[j++]) return false;
-    }
-    return true;
-}
-
-bool MyString ::operator!= (const MyString& other) {
-	if (len != other.len) return true;
-	for (int i = 0; i < len; i++) {
-		if (data[i] != other.data[i]) return true;
-	}
-	return false;
-}
-
-bool MyString::operator>= (const MyString& other) {
-	for (int i = 0; i < len && i < other.len; i++) {
-		if (data[i] > other.data[i]) return true;
-		if (data[i] < other.data[i]) return false;
-	}
-	if (len >= other.len) return true;
-	else return false;
-}
-
-bool MyString::operator<= (const MyString& other) {
-	for (int i = 0; i < len && i < other.len; i++) {
-		if (data[i] < other.data[i]) return true;
-		if (data[i] > other.data[i]) return false;
-	}
-	if (len <= other.len) return true;
-	else return false;
 }
 
 MyString MyString::operator+(const char* other) {
@@ -199,11 +156,157 @@ unsigned char& MyString::operator [](int index) {
     return data[index];
 }
 
-//MyString MyString::operator+(MyString& other) {
-//    MyString res;
-//    int newLen = len + other.len + 1;
-//    res.data = new unsigned char[len];
-//    for (int i = 0; i < len; i++) {
-//
-//    }
-//}
+MyString MyString::operator+(MyString& other) {
+    MyString res;
+    delete[] res.data;
+
+    res.len = len + other.len;
+    res.data = new unsigned char[res.len + 1];
+
+    for (int i = 0; i < len; i++) {
+        res.data[i] = data[i];
+    }
+
+    for (int i = 0; i < other.len; i++) {
+        res.data[len + i] = other.data[i];
+    }
+
+    res.data[res.len] = '\0';
+    return res;
+}
+
+
+bool MyString::operator > (const MyString& sub) const {
+    int i = 0, j = 0;
+    while (i < len && j < sub.len) {
+        if (data[i] > sub.data[j]) return true;
+        if (data[i] < sub.data[j]) return false;
+        i++; j++;
+    }
+    return len > sub.len;
+}
+
+bool MyString::operator < (const MyString& sub) const {
+    int i = 0, j = 0;
+    while (i < len && j < sub.len) {
+        if (data[i] < sub.data[j]) return true;
+        if (data[i] > sub.data[j]) return false;
+        i++; j++;
+    }
+    return len < sub.len;
+}
+
+bool MyString::operator == (const MyString& sub) const {
+    if (len != sub.len) return false;
+    for (int i = 0; i < len; i++) {
+        if (data[i] != sub.data[i]) return false;
+    }
+    return true;
+}
+
+bool MyString::operator != (const MyString& other) const {
+    if (len != other.len) return true;
+    for (int i = 0; i < len; i++) {
+        if (data[i] != other.data[i]) return true;
+    }
+    return false;
+}
+
+bool MyString::operator >= (const MyString& other) const {
+    for (int i = 0; i < len && i < other.len; i++) {
+        if (data[i] > other.data[i]) return true;
+        if (data[i] < other.data[i]) return false;
+    }
+    return len >= other.len;
+}
+
+bool MyString::operator <= (const MyString& other) const {
+    for (int i = 0; i < len && i < other.len; i++) {
+        if (data[i] < other.data[i]) return true;
+        if (data[i] > other.data[i]) return false;
+    }
+    return len <= other.len;
+}
+
+MyString& MyString::operator=(const MyString& other) {
+    if (this != &other) {
+
+        delete[] data;
+
+        len = other.len;
+        data = new unsigned char[len + 1];
+        for (int i = 0; i < len; i++) {
+            data[i] = other.data[i];
+        }
+        data[len] = '\0';
+    }
+    return *this;
+}
+
+void MyString::set(int _size) {
+    if (_size < 0 || _size == len) {
+        return;
+    }
+
+    if (_size == 0) {
+        delete[] data;
+        len = 0;
+        data = new unsigned char[1];
+        data[0] = '\0';
+        return;
+    }
+
+    unsigned char* newData = new unsigned char[_size + 1];
+
+    if (_size < len) {
+        for (int i = 0; i < _size; i++) {
+            newData[i] = data[i];
+        }
+    }
+    else if (_size > len) {
+        for (int i = 0; i < len; i++) {
+            newData[i] = data[i];
+        }
+        for (int i = len; i < _size; i++) {
+            newData[i] = '-';
+        }
+    }
+
+    newData[_size] = '\0';
+
+    delete[] data;
+    data = newData;
+    len = _size;
+}
+
+void MyString::set(const char* s) {
+    int len_s = 0;
+    bool flag = true;
+
+    while (s[len_s] != '\0') {
+        if (s[len_s] != data[len_s]) {
+            flag = false;
+        }
+        len_s++;
+    }
+    if (flag == true) return;
+
+    if (len_s == 0) {
+        delete[]data;
+        len = 0;
+        data = new unsigned char[1];
+        data[0] = '\0';
+        return;
+    }
+
+    delete[]data;
+    len = len_s;
+    data = new unsigned char[len + 1];
+
+
+    for (int i = 0; i < len; i++) {
+        data[i] = s[i];
+    }
+
+    data[len] = '\0';
+}

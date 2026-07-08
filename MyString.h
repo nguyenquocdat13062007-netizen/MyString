@@ -5,11 +5,11 @@ using namespace std;
 
 class MyString {
 private:
-    unsigned char* data ;
-    int len ;
+    unsigned char* data;
+    int len;
 public:
     MyString() {
-        data =  new unsigned char[1];
+        data = new unsigned char[1];
         len = 0;
         data[0] = '\0';
     }
@@ -24,7 +24,6 @@ public:
 
     int length();
     unsigned char* subString(int, int);
-    unsigned char* operator+(const MyString&);
     bool insert(int, unsigned char*);
     bool erase(int, int);
     bool replace(int, int, unsigned char*);
@@ -32,14 +31,16 @@ public:
 
     friend istream& operator>>(istream& is, MyString& M);
     friend ostream& operator<<(ostream& os, const MyString& str);
+    friend MyString operator + (const char*, const MyString&);
 
-    bool operator > (MyString);
-    bool operator < (MyString); 
-    bool operator == (MyString);
-    bool operator != (const MyString);
-    bool operator >= (const MyString&);
-    bool operator <= (const MyString&);
+    bool operator > (const MyString& other) const;
+    bool operator < (const MyString& other) const;
+    bool operator == (const MyString& other) const;
+    bool operator != (const MyString& other) const;
+    bool operator >= (const MyString& other) const;
+    bool operator <= (const MyString& other) const;
 
+    MyString& operator=(const MyString& other);
     MyString operator+(const char* other);
     MyString operator+(MyString&);
     unsigned char& operator [](int);
@@ -49,8 +50,11 @@ public:
     int find(int pos, const char* str);
 
     ~MyString() {
-        delete []data;
+        delete[]data;
     }
+
+    void set(int);
+    void set(const char*);
 };
 
 
