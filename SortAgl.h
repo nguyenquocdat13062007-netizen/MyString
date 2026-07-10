@@ -54,7 +54,6 @@ void SortAlg::BubbleSort(float a[], int n) {
         }
     }
 static void SelectionSort(float a[], int n) {
-        std::cout << "-> Dang sap xep bang: Selection Sort...\n";
         for (int i = 0; i < n - 1; i++) {
             int min_idx = i;
             for (int j = i + 1; j < n; j++) {
